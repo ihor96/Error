@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Контакт</title>
+
+</head>
+<body>
+
+[[${contact.id}]]
+[[${contact.name}]]
+[[${contact.surname}]]
+[[${contact.phone}]]
+
+<form th:action="@{'/updateContact'}" method="post">
+<input type="hidden" name="id" placeholder="id" th:value="${contact.id}">
+<input type="" name="name" placeholder="name" th:value="${contact.name}">
+<input type="" name="surname" placeholder="surname" th:value="${contact.surname}">
+<input type="" name="phone" placeholder="phone" th:value="${contact.phone}">
+<input type="submit" name="" placeholder="">
+
+
+
+
+</form>
+</body>
+</html>

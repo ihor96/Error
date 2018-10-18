@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>Title</title>
+</head>
+<body>
+<!--<form action="/save" method="post">-->
+    <!--<input type="" name="name" placeholder="name">-->
+    <!--<input type="" name="surname" placeholder="surname">-->
+    <!--<input type="" name="phone" placeholder="phone">-->
+    <!--<input type="submit" name="" placeholder="">-->
+<!--</form>-->
+
+
+<form action="/save" method="post" enctype="multipart/form-data">
+    <input type="" name="name" placeholder="name">
+    <input type="" name="surname" placeholder="surname">
+    <input type="" name="phone" placeholder="phone">
+    <input type="file" name="image" placeholder="image">
+    <input type="submit" name="" placeholder="">
+</form>
+
+<div>
+    <a href="/allContacts">Show All contacts</a>
+</div>
+
+
+<!--&lt;!&ndash;//асинхронні запити за допомогою скріпта&ndash;&gt;-->
+<!--<div>-->
+    <!--<input type="" id="name">-->
+    <!--<input type="" id="surname">-->
+    <!--<input type="" id="phone">-->
+    <!--<button id="saveButton">save</button>-->
+<!--</div>-->
+<!--<div id="representer"></div>-->
+<!--&lt;!&ndash;<script src="main.js">  </script>&ndash;&gt;-->
+<!--<script>-->
+<!--$("#saveButton").click(function () {-->
+<!--let name = $("#name").val();-->
+<!--let surname = $("#surname").val();-->
+<!--let phone = $("#phone").val();-->
+<!--$("#representer").empty();-->
+<!--$.ajax({-->
+    <!--url:'saveAJAX',-->
+    <!--type:'POST',-->
+    <!--contentType:'application/json',-->
+    <!--data:JSON.stringify({name,surname,phone}),-->
+    <!--success:function (response) {-->
+        <!--console.log(response)-->
+        <!--for (const singleContact of response){-->
+            <!--let $div = $('<div>',{-->
+                <!--text:singleContact.id-->
+                <!--+ ' '-->
+                <!--+ singleContact.name-->
+                <!--+ ' '-->
+                <!--+ singleContact.surname-->
+                <!--+ ' '-->
+                <!--+ singleContact.phone-->
+
+            <!--});-->
+            <!--$("#representer").append($div);-->
+
+        <!--}-->
+    <!--},-->
+    <!--error:function (err) {-->
+        <!--console.log(err)-->
+    <!--}-->
+
+<!--})-->
+
+
+<!--})-->
+
+
+
+<!--</script>-->
+<!--добавляємо зображення до файлу через JS-->
+<form id="f1">
+<input type="" name="name" placeholder="name">
+<input type="" name="surname" placeholder="surname">
+<input type="" name="phone" placeholder="phone">
+<input type="file" name="image" placeholder="image">
+<button id="btn">go</button>
+</form>
+<script>
+    $('#btn').click(function (event) {
+        event.preventDefault();
+
+        $.ajax({
+        url:'/upload',
+        type:'POST',
+        data:new FormData($("#f1")[0]),
+            enctype:'multipart/form-data',
+            processData: false,
+        contentType:false,
+            cache:false,
+        success:function () {
+console.log('ok');
+        },
+        error:function (err) {
+        console.log(err);
+        }
+
+        });
+
+    })
+
+</script>
+</body>
+</html>
