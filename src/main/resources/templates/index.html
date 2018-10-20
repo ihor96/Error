@@ -6,6 +6,15 @@
     <title>Title</title>
 </head>
 <body>
+
+<hr>
+<!--thForm CNTRL J-->
+<form th:action="@{/saveUser}" method="post">
+    <input type="text" name="username" placeholder="username">
+    <input type="text" name="password" placeholder="password">
+
+    <input type="submit" value="go!">
+</form>
 <!--<form action="/save" method="post">-->
     <!--<input type="" name="name" placeholder="name">-->
     <!--<input type="" name="surname" placeholder="surname">-->

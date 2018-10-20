@@ -1,8 +1,11 @@
 package com.example.javaspringkw11.controllers;
 
 import com.example.javaspringkw11.Dao.ContactDAO;
+import com.example.javaspringkw11.Services.UserService;
 import com.example.javaspringkw11.models.Contact;
+import com.example.javaspringkw11.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +21,8 @@ public class mainController {
     private ContactDAO contactDAO;
 
     @GetMapping("/")
-    public String index2(Model model){
-        model.addAttribute("message","Ihor");
+    public String index2(Model model) {
+        model.addAttribute("message", "Ihor");
         return "index";
     }
 
@@ -32,16 +35,15 @@ public class mainController {
 //    }
 
 
-
-@PostMapping("/save")//Використовують, зоб в урлі не містились такі дані як імя,пароль
-public String save(
-        Contact contact,
-        @RequestParam MultipartFile image) throws IOException {        //Зберігаю файл в файлову систему
+    @PostMapping("/save")//Використовують, зоб в урлі не містились такі дані як імя,пароль
+    public String save(
+            Contact contact,
+            @RequestParam MultipartFile image) throws IOException {        //Зберігаю файл в файлову систему
         String path = System.getProperty("user.home")//прописую шлях де буде зберігатись картинка
-                +File.separator
-                +"images"
-                +File.separator
-                +image.getOriginalFilename();
+                + File.separator
+                + "images"
+                + File.separator
+                + image.getOriginalFilename();
         image.transferTo(new File(path));
 
         contact.setAvatar(image.getOriginalFilename());//Вказуємо імя файла який ми зберігаєм
@@ -52,28 +54,45 @@ public String save(
     }
 
 
-
     @GetMapping("/allContacts")
-    public String allContacts(Model model){
+    public String allContacts(Model model) {
         List<Contact> contacts = contactDAO.findAll();
-        model.addAttribute("contacts",contacts);
+        model.addAttribute("contacts", contacts);
         return "contactList";
     }
 
-@GetMapping("/contactDetail/{id}")
-public String resolveSingleContact(@PathVariable int id, Model model) {
-    Contact contact = contactDAO.findById(id).get();
-    model.addAttribute("contact", contact);
-    return "singleContact";
-}
+    @GetMapping("/contactDetail/{id}")
+    public String resolveSingleContact(@PathVariable int id, Model model) {
+        Contact contact = contactDAO.findById(id).get();
+        model.addAttribute("contact", contact);
+        return "singleContact";
+    }
 
 
-
-    @PostMapping("/updateContact")    
-    public String updateContact(Contact contact){
+    @PostMapping("/updateContact")
+    public String updateContact(Contact contact) {
         contactDAO.save(contact);
         return "redirect:/allContacts";
     }
 
+    @PostMapping("/successURL")
+    public String successURL() {
 
+        return "index";
+    }
+
+@Autowired
+private UserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @PostMapping("/saveUser")
+    public String saveUser(User user){
+        String encode = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encode);
+        userService.save(user);
+        return "redirect:/login";
+    }
 }
+
